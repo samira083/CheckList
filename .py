@@ -1,27 +1,72 @@
 import tkinter as tk
-from tkinter import *
-import tkinter.font as tkFont
-import os
+from PIL import Image, ImageTk, ImageSequence
 
-# Abertura da janela
-janela_1 = tk.Tk()  
-janela_1.title("Check List")  # Nome da janela
+# Criação da janela
+janela = tk.Tk()
+janela.title("Controle de GIF")
 
-# Para a janela crescer proporcionalmente
-janela_1.columnconfigure(0, weight=1)
-janela_1.rowconfigure(0, weight=1)
+# Configura o fundo da janela para preto
+janela.config(bg="black")
 
-# Caminho da fonte .ttf
-caminho_fonte = os.path.join(os.getcwd(), "04B_30_.TTF")
+# Carrega o GIF
+gif_path = "C:\\Users\\samir\\Downloads\\Hello day.gif"  # Substitua pelo caminho do seu GIF
+gif = Image.open(gif_path)
 
-# REGISTRA a fonte no tkinter
-tkFont.Font(family="MinhaFonte", size=20, weight="bold")
-janela_1.tk.call('font', 'create', 'MinhaFonte', '-family', '04B_30_', '-size', '20', '-weight', 'bold')
+# Carrega todos os frames do GIF
+frames = [ImageTk.PhotoImage(frame.copy()) for frame in ImageSequence.Iterator(gif)]
 
-# Cria o título
-titulo__Check = tk.Label(janela_1, text="CHECK LIST", font="MinhaFonte")
-# Define onde a coluna e a linha irão ficar
-titulo__Check.grid(column=0, row=0, sticky="nsew")
+# Variável para controlar o estado da animação (True = animando, False = pausado)
+animando = True
+current_frame = 0
 
-# Exibe a janela
-janela_1.mainloop()
+# Função para atualizar o frame do GIF
+def mostrar_frame():
+    global animando, current_frame  # Declara as variáveis como globais
+
+    if animando:
+        # Exibe o próximo frame
+        label.config(image=frames[current_frame])
+        label.image = frames[current_frame]
+
+        # Passa para o próximo frame, reiniciando quando chegar ao final
+        current_frame = (current_frame + 1) % len(frames)
+
+        # Verifica se a animação deve ser pausada depois de um ciclo completo
+        if current_frame == 0:
+            animando = False  # Pausa a animação após o ciclo completo
+
+        # Atualiza a cada 100 ms
+        janela.after(100, mostrar_frame)
+
+# Função para o botão (exemplo de exibir uma mensagem)
+def exibir_mensagem():
+    print("Botão clicado!")
+
+# Criação do label para exibir o GIF
+label = tk.Label(janela, bg="black")  # Definindo o fundo do label como preto também
+label.pack()
+
+# Criação do botão abaixo do GIF
+botao = tk.Button(
+    janela,
+    text="CALENDÁRIO",  # texto do botão
+    font=("Arial", 16, "bold"),  # configurações do texto
+    command=exibir_mensagem,  # para exibir "calendário"
+    fg="white",  # cor da letra
+    bg="lime",  # cor do botão
+    width=20,  # largura
+    height=2,  # altura
+    bd=0,  # remover borda do botão
+    relief="flat",  # sem relevo
+    highlightthickness=0,  # sem destaque na borda
+    padx=20,  # espaçamento dentro do texto e o botão
+    pady=10  # espaçamento vertical
+)
+
+botao.pack(pady=10)
+
+# Começa a mostrar o primeiro frame
+mostrar_frame()
+
+# Inicia a janela
+janela.mainloop()
