@@ -1,9 +1,11 @@
 import tkinter as tk
+import customtkinter as ctk
 from PIL import Image, ImageTk, ImageSequence
 
 # Criação da janela
 janela = tk.Tk()
 janela.title("Controle de GIF")
+ctk.set_appearance_mode("dark")
 
 # Configura o fundo da janela para preto
 janela.config(bg="black")
@@ -47,23 +49,18 @@ label = tk.Label(janela, bg="black")  # Definindo o fundo do label como preto ta
 label.pack()
 
 # Criação do botão abaixo do GIF
-botao = tk.Button(
-    janela,
-    text="CALENDÁRIO",  # texto do botão
-    font=("Arial", 16, "bold"),  # configurações do texto
-    command=exibir_mensagem,  # para exibir "calendário"
-    fg="white",  # cor da letra
-    bg="lime",  # cor do botão
-    width=20,  # largura
-    height=2,  # altura
-    bd=0,  # remover borda do botão
-    relief="flat",  # sem relevo
-    highlightthickness=0,  # sem destaque na borda
-    padx=20,  # espaçamento dentro do texto e o botão
-    pady=10  # espaçamento vertical
+btn_show = ctk.CTkButton(
+    master=janela,
+    text="NEXT",
+    font=("Arial", 26, "bold"),
+    command=exibir_mensagem,
+    text_color="black",      # cor do texto
+    fg_color="lime",          # cor do botão
+    corner_radius=20,         # botão mais arredondado
+    width=350,                # largura
+    height=50                 # altura
 )
-
-botao.pack(pady=10)
+btn_show.pack(pady=10)
 
 # Começa a mostrar o primeiro frame
 mostrar_frame()
