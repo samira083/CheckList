@@ -2,6 +2,7 @@ import tkinter as tk
 import customtkinter as ctk
 from PIL import Image, ImageTk, ImageSequence
 from datetime import datetime
+import os
 
 # Dicionários e variáveis para controle das respostas e perguntas
 respostas = {}
@@ -15,7 +16,11 @@ ctk.set_appearance_mode("dark")
 janela_1.config(bg="black")
 
 # Carrega e converte os frames do GIF
-gif_path = "C:\\Users\\samir\\Downloads\\Hello day.gif"
+gif_path = "Hello day.gif"
+script_dir = os.path.dirname(os.path.abspath(__file__))
+gif_path = os.path.join(script_dir, "Hello day.gif")
+
+
 gif = Image.open(gif_path)
 frames = [ImageTk.PhotoImage(frame.copy()) for frame in ImageSequence.Iterator(gif)]
 
