@@ -6,7 +6,7 @@
 
 ## 🔧 Instalação
 
-###Siga os passos abaixo para instalar e executar o projeto:
+### Siga os passos abaixo para instalar e executar o projeto:
 
 1. **Certifique-se de ter o Python 3.8+ instalado.**
    
@@ -22,20 +22,20 @@ git clone https://github.com/seu-usuario/cyber-routine.git
 cd cyber-routine
 
 
-##Execute o programa:
+## Execute o programa:
 ==>bash
 ==>Copiar
 ==>Editar
 ==>python main.py
 
-##🧪 Tecnologias usadas
+## 🧪 Tecnologias usadas
 ===>Python 3.8+
 ===>tkinter - Biblioteca padrão para interfaces gráficas.
 ===>customtkinter - Extensão para personalizar a interface com mais opções visuais.
 ===>Pillow - Para manipulação de imagens, como o GIF animado no programa.
 
 
-##🚀 Como funciona
-===>O bot interage com o usuário, fazendo perguntas para entender melhor suas necessidades.
-===>Com base nas respostas, ele cria uma rotina personalizada para o usuário.
-===>O programa exibe a rotina em um checklist interativo, onde o usuário pode marcar as tarefas concluídas.
+## 🚀 Como funciona
+===> O bot interage com o usuário, fazendo perguntas para entender melhor suas necessidades.
+===> Com base nas respostas, ele cria uma rotina personalizada para o usuário.
+===> O programa exibe a rotina em um checklist interativo, onde o usuário pode marcar as tarefas concluídas.
