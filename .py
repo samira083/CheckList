@@ -1,32 +1,53 @@
+
+
 import tkinter as tk
 import customtkinter as ctk
 from PIL import Image, ImageTk, ImageSequence
 from datetime import datetime
 import os
 
-# ------------------ VARIÁVEIS GLOBAIS ------------------
+
+
+
+
+
+
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> _____VARIÁVEIS GLOBAIS___ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 respostas = {}              # Guarda as respostas do usuário
 indice_pergunta = 0         # Índice de controle do fluxo de perguntas
 tarefas = []                # Lista de tarefas que compõem a rotina
 animando = True             # Controle da animação do GIF
-after_id = None             # ID do método after() da animação para possível cancelamento
+after_id = None             # ID para controle do after() da animação
+#-------------------------------------------------------------------------------------------------------------------------------------------------
 
-# ------------------ JANELA 1: ANIMAÇÃO INICIAL ------------------
-janela_1 = tk.Tk()
-janela_1.title("CHECK CHECK")
-ctk.set_appearance_mode("dark")  # Define o modo escuro do CustomTkinter
-janela_1.config(bg="black")      # Fundo preto para estilo cyber
 
-# Caminho absoluto do GIF animado
+
+
+
+
+
+
+
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ______JANELA 1: ANIMAÇÃO INICIAL______ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+janela_1 = tk.Tk()  # Cria a primeira janela
+janela_1.title("CHECK CHECK")  # Título da janela
+ctk.set_appearance_mode("dark")  # Ativa o modo escuro
+janela_1.config(bg="black")  # Fundo preto
+
+# Caminho do arquivo GIF
 gif_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Hello day.gif")
+
+# Carrega os frames do GIF
 gif = Image.open(gif_path)
-frames = [ImageTk.PhotoImage(frame.copy()) for frame in ImageSequence.Iterator(gif)]  # Carrega todos os frames do GIF
+frames = [ImageTk.PhotoImage(frame.copy()) for frame in ImageSequence.Iterator(gif)]
 
 # Label para exibir o GIF
 label = tk.Label(janela_1, bg="black")
 label.pack()
 
-# Função que exibe os frames do GIF em loop
+# Função para exibir os frames do GIF em loop
 def mostrar_frame():
     global current_frame, animando, after_id
     if animando and current_frame < len(frames):
@@ -35,62 +56,106 @@ def mostrar_frame():
         current_frame += 1
         after_id = janela_1.after(100, mostrar_frame)
     else:
-        animando = False
+        animando = False  # Encerra animação
 
 current_frame = 0
 mostrar_frame()
+#---------------------------------------------------------------------------------------------------------------------------------------------------
 
-# ------------------ JANELA 2: INTERFACE DO ASSISTENTE ------------------
+
+
+
+
+
+
+
+
+
+
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> _______JANELA 2: CHAT E CHECKLIST________ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 def abrir_janela_2():
     global animando, after_id
-    animando = False
+    animando = False  # Para animação
     if after_id:
         janela_1.after_cancel(after_id)
-    janela_1.destroy()  # Fecha a janela inicial com o GIF
+    janela_1.destroy()  # Fecha janela 1
 
-    # Criação da nova janela principal
+    # Cria a segunda janela
     janela_2 = tk.Tk()
     janela_2.title("Assistente de Rotina")
     janela_2.geometry("900x500")
     ctk.set_appearance_mode("dark")
     janela_2.config(bg="black")
+#--------------------------------------------------------------------------------------------------------------------------------------------------
 
-    # ------------------ FRAME ESQUERDO: CHAT ------------------
+
+
+
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ______FRAME DO CHAT (ESQUERDA)_______ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     frame_chat = tk.Frame(janela_2, bg="black")
     frame_chat.pack(side="left", fill="both", expand=True)
-
-    # ------------------ FRAME DIREITO COM BORDA VERDE FLUORESCENTE ------------------
-
-    # Frame externo simulando borda verde
-    borda_rotina = tk.Frame(janela_2, bg="#39ff14", padx=2, pady=2)
-    borda_rotina.pack(side="right", fill="y", pady=20, padx=10)
-
-    # Frame interno (conteúdo da rotina)
-    frame_rotina = tk.Frame(borda_rotina, bg="#1a1a1a", width=300)
-    frame_rotina.pack(fill="both", expand=True)
+#-------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-    # Caixa de saída do chat (apenas leitura)
-    caixa_chat = tk.Text(frame_chat, bg="black", fg="lime", font=("Consolas", 16),
-                        state="disabled", wrap="word", relief="flat")
+
+
+
+
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ____FRAME DA ROTINA (DIREITA)_____ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    frame_rotina = tk.Frame(
+        janela_2, bg="#1a1a1a", width=900,
+        highlightbackground="#39ff14", highlightcolor="#39ff14",  # Borda verde neon
+        highlightthickness=3
+    )
+    frame_rotina.pack(side="right", fill="y", pady=20)
+#--------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+    #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> _______CAIXA DE TEXTO DO CHAT______ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    caixa_chat = tk.Text(frame_chat, bg="black", fg="lime", font=("Consolas", 16))
     caixa_chat.pack(padx=10, pady=20, expand=True, fill="both")
+#--------------------------------------------------------------------------------------------------------------------------------------------------
 
-    # Variável de entrada do usuário
+
+
+
+
+
+
+
+
+    #>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> _______CAMPO DE ENTRADA + BOTÃO_______ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     entrada_var = tk.StringVar()
     entrada_var.set("escreva aqui...")
 
-    # Frame para agrupar entrada e botão ➤
     entrada_frame = tk.Frame(frame_chat, bg="black")
     entrada_frame.pack(fill="x", padx=10, pady=5)
 
-    # Campo de entrada de texto
-    entrada = tk.Entry(entrada_frame, textvariable=entrada_var, font=("Consolas", 20),
-                    bg="black", fg="lime", insertbackground="lime",
-                    highlightbackground="#39ff14", highlightcolor="#39ff14",
-                    highlightthickness=2, relief="flat")
+    entrada = tk.Entry(
+        entrada_frame, textvariable=entrada_var, font=("Consolas", 20),
+        bg="black", fg="lime", insertbackground="lime",
+        highlightbackground="#39ff14", highlightcolor="#39ff14",
+        highlightthickness=2, relief="flat"
+    )
     entrada.pack(side="left", fill="x", expand=True)
 
-    # Comportamento do placeholder
+    # Botão ➤ ao lado da entrada
+    botao_enviar = ctk.CTkButton(
+        entrada_frame, text="➤", width=50, height=45, text_color="#39ff14",
+        fg_color="#0f0f0f", hover_color="#1f1f1f", font=("Arial", 20, "bold"),
+        command=lambda: enviar()
+    )
+    botao_enviar.pack(side="right", padx=(5, 0))
+
+    # Placeholder interativo
     def on_entry_click(event):
         if entrada_var.get() == "escreva aqui...":
             entrada_var.set("")
@@ -100,44 +165,46 @@ def abrir_janela_2():
 
     entrada.bind("<FocusIn>", on_entry_click)
     entrada.bind("<FocusOut>", on_focus_out)
+#-----------------------------------------------------------------------------------------------------------------------------------------------------
 
-    # Botão circular com símbolo ➤ ao lado da entrada
-    botao_enviar = tk.Canvas(entrada_frame, width=50, height=50, bg="black", highlightthickness=0)
-    botao_enviar.pack(side="left", padx=(10, 0))
-    circulo = botao_enviar.create_oval(5, 5, 45, 45, outline="black", width=2, fill="#0f0f0f")
-    texto = botao_enviar.create_text(25, 25, text="➤", fill="#39ff14", font=("Arial", 16, "bold"))
-    botao_enviar.tag_bind(circulo, "<Button-1>", lambda e: enviar())
-    botao_enviar.tag_bind(texto, "<Button-1>", lambda e: enviar())
 
-    # Título da seção de rotina
+
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ______TÍTULO DA CHECKLIST______ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     label_rotina = tk.Label(frame_rotina, text="Sua Rotina", bg="#1a1a1a",
                             fg="lime", font=("Arial", 15, "bold"))
     label_rotina.pack(pady=10)
+#---------------------------------------------------------------------------------------------------------------------------------------------------
 
-    # Frame onde os itens da checklist serão exibidos
+
+
+
+
+
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ________FRAME INTERNO DA CHECKLIST_____ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     checklist_frame = tk.Frame(frame_rotina, bg="#1a1a1a")
-    checklist_frame.pack(fill="both", expand=True, padx=20)
+    checklist_frame.pack(fill="both", expand=True, padx=150)
 
-    # Atualiza os checkboxes com base nas tarefas
+    # Atualiza a checklist com tarefas
     def atualizar_checklist():
         for widget in checklist_frame.winfo_children():
             widget.destroy()
         tarefas.sort()
         for hora, descricao in tarefas:
             var = tk.IntVar()
-            chk = tk.Checkbutton(checklist_frame, text=f"{hora} {descricao}",
-                                variable=var, onvalue=1, offvalue=0,
-                                bg="#1a1a1a", fg="white", selectcolor="black", anchor="w")
+            chk = tk.Checkbutton(
+                checklist_frame, text=f"{hora} {descricao}",
+                variable=var, onvalue=1, offvalue=0,
+                bg="#1a1a1a", fg="white", selectcolor="black", anchor="w"
+            )
             chk.pack(fill="x", pady=5, anchor="w")
 
-    # Insere mensagens simulando "fala" com delay
+    # Exibe mensagens do bot com delay
     def bot_fala(mensagem, delay=500):
-        janela_2.after(delay, lambda: (caixa_chat.config(state="normal"),
-                                    caixa_chat.insert(tk.END, mensagem),
-                                    caixa_chat.see(tk.END),
-                                    caixa_chat.config(state="disabled")))
+        janela_2.after(delay, lambda: caixa_chat.insert(tk.END, mensagem))
 
-    # Introdução inicial do bot com delays variados
+    # Mensagens iniciais do bot
     bot_fala("> [BOT: CYBER-ROUTINE v1.0]\n", delay=300)
     bot_fala(">\n", delay=350)
     bot_fala(">\n", delay=370)
@@ -151,14 +218,27 @@ def abrir_janela_2():
     bot_fala("> → Entregar tudo em um CHECKLIST interativo.\n", delay=3000)
     bot_fala(">\n", delay=3100)
     bot_fala("> ⚠ Ative o MODO TELA CHEIA para melhor experiência. ⚠\n", delay=4000)
+    bot_fala("> ⚠ Ao lado da caixa de entrada tem um botão de ENVIO para suas mensagens. ⚠\n", delay=4050)
     bot_fala(">\n", delay=4100)
-    bot_fala("> [Digite algo e pressione o botão '➤']\n", delay=4800)
-    bot_fala(">\n", delay=4900)
-    bot_fala(">\n", delay=4950)
+    bot_fala("> [ Digite algo e aperte o botão '➤' para começar (Do lado da caixa de envio)] \n", delay=5300)
+    bot_fala(">\n", delay=5350)
 
-    inicio_confirmado = False
+    inicio_confirmado = False  # Garante que a pergunta inicial apareça só uma vez
+#-----------------------------------------------------------------------------------------------------------------------------------------------
 
-    # ------------------ LÓGICA DE FLUXO DO BOT ------------------
+
+
+
+
+
+
+
+
+
+
+
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ____LÓGICA DO ENVIO DE MENSAGENS___ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     def enviar():
         nonlocal inicio_confirmado
         global indice_pergunta
@@ -173,13 +253,10 @@ def abrir_janela_2():
             inicio_confirmado = True
             return
 
-        caixa_chat.config(state="normal")
         caixa_chat.insert(tk.END, f"> Você: {msg}\n")
-        caixa_chat.config(state="disabled")
-        caixa_chat.see(tk.END)
         entrada.delete(0, tk.END)
 
-        # Etapa 1 - trabalha?
+        # Pergunta 1 - Trabalha hoje?
         if indice_pergunta == 0:
             if msg.lower() == "y":
                 respostas["trabalha"] = True
@@ -190,7 +267,7 @@ def abrir_janela_2():
                 bot_fala("> BOT: Sem trabalho hoje.\n> BOT: Que horas você costuma acordar? (ex: 4:30)\n")
                 indice_pergunta = 2
 
-        # Etapa 2 - horário de trabalho
+        # Pergunta 2 - Horário de trabalho
         elif indice_pergunta == 1:
             try:
                 horario = datetime.strptime(msg, "%H:%M").strftime("%H:%M")
@@ -201,7 +278,7 @@ def abrir_janela_2():
             except ValueError:
                 bot_fala("> BOT: Use o formato HH:MM.\n")
 
-        # Etapa 3 - acordar
+        # Pergunta 3 - Acordar
         elif indice_pergunta == 2:
             try:
                 horario = datetime.strptime(msg, "%H:%M").strftime("%H:%M")
@@ -212,7 +289,7 @@ def abrir_janela_2():
             except ValueError:
                 bot_fala("> BOT: Horário inválido.\n")
 
-        # Etapa 4 - café da manhã
+        # Pergunta 4 - Café da manhã
         elif indice_pergunta == 3:
             try:
                 horario = datetime.strptime(msg, "%H:%M").strftime("%H:%M")
@@ -223,7 +300,7 @@ def abrir_janela_2():
             except ValueError:
                 bot_fala("> BOT: Tente no formato HH:MM.\n")
 
-        # Etapa 5 - lazer
+        # Pergunta 5 - Lazer
         elif indice_pergunta == 4:
             try:
                 horario = datetime.strptime(msg, "%H:%M").strftime("%H:%M")
@@ -234,14 +311,18 @@ def abrir_janela_2():
             except ValueError:
                 bot_fala("> BOT: Tente no formato HH:MM.\n")
 
-        # Final
         else:
-            bot_fala("> BOT: Rotina já foi criada.\n")
+            bot_fala("> BOT: Rotina finalizada ✅\n")
 
-    # Encerra a interface
+    # Inicia o loop da segunda janela
     janela_2.mainloop()
+#--------------------------------------------------------------------------------------------------------------------------------------------------
 
-# ------------------ BOTÃO "NEXT" NA JANELA INICIAL ------------------
+
+
+
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ______BOTÃO "NEXT" PARA INICIAR ______>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 btn_show = ctk.CTkButton(
     master=janela_1,
     text="NEXT",
@@ -254,6 +335,12 @@ btn_show = ctk.CTkButton(
     height=50
 )
 btn_show.pack(pady=10)
+#----------------------------------------------------------------------------------------------------------------------------------------------------
 
-# ------------------ INICIALIZA A INTERFACE ------------------
+
+
+
+
+
+#>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> _____INÍCIO DA INTERFACE_____ >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 janela_1.mainloop()
