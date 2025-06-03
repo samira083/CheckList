@@ -35,48 +35,63 @@ pip install customtkinter Pillow
 
 3. **Clone ou baixe o repositório:**
    bash
+
+
    git clone https://github.com/seu-usuario/cyber-routine.git cd cyber-routine
 
 
 4. **Execute o programa:**
    bash
+
+
    python main.py
 
 
 ## 🧪 Tecnologias usadas
 
 
+
 **Python 3.8+** 
 
 
-**tkinter – Biblioteca padrão para interfaces gráficas**
+tkinter – Biblioteca padrão para interfaces gráficas
 
 
-**customtkinter – Extensão para personalização visual**
+customtkinter – Extensão para personalização visual
 
 
-**Pillow – Manipulação de imagens (ex.: GIF animado)**
+Pillow – Manipulação de imagens (ex.: GIF animado)
+
 
 
 
 ## 🚀 Como funciona
 
 
+
 **O bot interage com o usuário, fazendo perguntas para entender melhor suas necessidades.**
+
+
 **Com base nas respostas, cria uma rotina personalizada.**
+
+
 **Exibe a rotina em um checklist interativo, onde o usuário pode marcar as tarefas concluídas.**
 
+
+
 ## 🤝 Contribuindo
+
+
 
 **Contribuições são bem-vindas.**
 
 Siga os passos abaixo:
 
-1. **Fork o projeto.
+1. Fork o projeto.
 2. Crie uma branch com sua feature: git checkout -b minha-feature
 3. Commit as mudanças: git commit -m 'Minha nova feature'
 4. Push para a branch: git push origin minha-feature
-5. Abra um Pull Request.**
+5. Abra um Pull Request.
 
 ## 📫 Contato
 
