@@ -46,10 +46,18 @@ pip install customtkinter Pillow
 ## 🧪 Tecnologias usadas
 
 
-**Python 3.8+**
+**Python 3.8+** 
+
+
 **tkinter – Biblioteca padrão para interfaces gráficas**
+
+
 **customtkinter – Extensão para personalização visual**
+
+
 **Pillow – Manipulação de imagens (ex.: GIF animado)**
+
+
 
 ## 🚀 Como funciona
 
